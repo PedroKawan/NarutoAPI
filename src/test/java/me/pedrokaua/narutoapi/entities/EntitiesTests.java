@@ -1,13 +1,16 @@
 package me.pedrokaua.narutoapi.entities;
 
+import me.pedrokaua.narutoapi.exceptions.CharacterAlreadyExistsException;
 import me.pedrokaua.narutoapi.models.entities.NarutoCharacter;
 import me.pedrokaua.narutoapi.models.services.NarutoCharacterServiceImpl;
+import org.bson.types.ObjectId;
 import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
@@ -35,20 +38,33 @@ class EntitiesTests {
     }
 
     @Test
-    void test3_getEntity(){
+    void test3_postEntityWithException(){
         new Thread(() -> {
-            assertDoesNotThrow(() -> {
-                NarutoCharacter char1 = characterService.findByName("Naru");
-                System.out.println(char1.getName());
+            assertThrowsExactly(CharacterAlreadyExistsException.class, () -> {
+                NarutoCharacter char1
+                        = new NarutoCharacter("Naruto Uzumaki", 18, 'M', "Uzumaki", "Genin");
+                characterService.saveCharacter(char1);
             });
         });
     }
 
     @Test
-    void test4_deleteEntity(){
+    void test4_getEntity(){
         new Thread(() -> {
             assertDoesNotThrow(() -> {
-                characterService.deleteCharacter(characterService.findByName("Naru"));
+                var char1 = characterService.findByName("Naru");
+                assertEquals("Naruto Uzumaki", char1.getName());
+            });
+        });
+
+    }
+
+
+    @Test
+    void test6_deleteEntity(){
+        new Thread(() -> {
+            assertDoesNotThrow(() -> {
+                characterService.deleteCharacter(characterService.findByName("Naruto Uzumaki"));
             });
         });
     }

@@ -1,19 +1,14 @@
 package me.pedrokaua.narutoapi.models.entities;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
-import javax.annotation.processing.Generated;
 import java.util.Objects;
 import java.util.UUID;
 
-@Document
+@Document(value = "characters")
 public class NarutoCharacter {
 
-    @MongoId
-    private ObjectId id;
+    private String id;
 
     private String name;
 
@@ -35,7 +30,7 @@ public class NarutoCharacter {
         this.rank = rank;
     }
 
-    public NarutoCharacter(ObjectId id, Integer age, String name, Character gender, String clan, String rank) {
+    public NarutoCharacter(String id, Integer age, String name, Character gender, String clan, String rank) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -44,11 +39,11 @@ public class NarutoCharacter {
         this.rank = rank;
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 

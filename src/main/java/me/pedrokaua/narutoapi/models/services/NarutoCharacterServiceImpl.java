@@ -3,16 +3,14 @@ package me.pedrokaua.narutoapi.models.services;
 import me.pedrokaua.narutoapi.exceptions.CharacterAlreadyExistsException;
 import me.pedrokaua.narutoapi.exceptions.CharacterNotFoundException;
 import me.pedrokaua.narutoapi.models.entities.NarutoCharacter;
-import me.pedrokaua.narutoapi.models.repository.NarutoCharacterRepository;
+import me.pedrokaua.narutoapi.models.repositories.NarutoCharacterRepository;
 import me.pedrokaua.narutoapi.models.services.impl.NarutoCharacterService;
-import org.apache.logging.log4j.spi.ObjectThreadContextMap;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
 
 import java.lang.module.FindException;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class NarutoCharacterServiceImpl implements NarutoCharacterService {
@@ -49,7 +47,7 @@ public class NarutoCharacterServiceImpl implements NarutoCharacterService {
 
     @Override
     public NarutoCharacter findById(String id) {
-        NarutoCharacter char1 = characterRepository.findById(new ObjectId(id))
+        NarutoCharacter char1 = characterRepository.findById(id)
                 .orElseThrow(() -> {
                     throw new FindException("Character not found by id: " + id);
                 });
@@ -79,6 +77,7 @@ public class NarutoCharacterServiceImpl implements NarutoCharacterService {
             throw new NullPointerException("Entity is null!");
         }
         try {
+            System.out.println(entity.getId());
             characterRepository.delete(entity);
             return entity;
         } catch (Exception e) {
@@ -95,7 +94,7 @@ public class NarutoCharacterServiceImpl implements NarutoCharacterService {
         }
         try {
             NarutoCharacter char1 = findById(id);
-            characterRepository.deleteById(new ObjectId(id));
+            characterRepository.deleteById(id);
             return char1;
         } catch (Exception e) {
             throw new CharacterNotFoundException();

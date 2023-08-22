@@ -1,8 +1,6 @@
 package me.pedrokaua.narutoapi.models.services.impl;
 
 import me.pedrokaua.narutoapi.models.entities.NarutoCharacter;
-import me.pedrokaua.narutoapi.models.repository.NarutoCharacterRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 

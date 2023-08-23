@@ -3,7 +3,6 @@ package me.pedrokaua.narutoapi.entities;
 import me.pedrokaua.narutoapi.exceptions.CharacterAlreadyExistsException;
 import me.pedrokaua.narutoapi.models.entities.NarutoCharacter;
 import me.pedrokaua.narutoapi.models.services.NarutoCharacterServiceImpl;
-import org.bson.types.ObjectId;
 import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Test;
 import org.junit.runners.MethodSorters;
@@ -64,7 +63,8 @@ class EntitiesTests {
     void test6_deleteEntity(){
         new Thread(() -> {
             assertDoesNotThrow(() -> {
-                characterService.deleteCharacter(characterService.findByName("Naruto Uzumaki"));
+                characterService.deleteCharacterById(characterService.findByName("Naruto Uzumaki").getId().toString());
+                characterService.deleteCharacterById(characterService.findByName("Naruto Uzumaki").getId().toString());
             });
         });
     }

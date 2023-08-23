@@ -1,14 +1,17 @@
 package me.pedrokaua.narutoapi.models.entities;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import jakarta.persistence.*;
 
 import java.util.Objects;
 import java.util.UUID;
 
-@Document(value = "characters")
+@Entity(name = "tb_character")
 public class NarutoCharacter {
 
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     private String name;
 
@@ -18,32 +21,32 @@ public class NarutoCharacter {
 
     private String clan;
 
-    private String rank;
+    private String occupation;
 
     public NarutoCharacter(){}
 
-    public NarutoCharacter(String name, Integer age, Character gender, String clan, String rank) {
+    public NarutoCharacter(String name, Integer age, Character gender, String clan, String occupation) {
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.clan = clan;
-        this.rank = rank;
+        this.occupation = occupation;
     }
 
-    public NarutoCharacter(String id, Integer age, String name, Character gender, String clan, String rank) {
+    public NarutoCharacter(UUID id, Integer age, String name, Character gender, String clan, String occupation) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.clan = clan;
-        this.rank = rank;
+        this.occupation = occupation;
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -79,12 +82,12 @@ public class NarutoCharacter {
         this.clan = clan;
     }
 
-    public String getRank() {
-        return rank;
+    public String getOccupation() {
+        return occupation;
     }
 
-    public void setRank(String rank) {
-        this.rank = rank;
+    public void setOccupation(String rank) {
+        this.occupation = rank;
     }
 
     @Override

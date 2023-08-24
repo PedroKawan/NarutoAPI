@@ -1,6 +1,5 @@
 package me.pedrokaua.narutoapi.entities;
 
-import jakarta.validation.Valid;
 import me.pedrokaua.narutoapi.controllers.NarutoCharacterController;
 import me.pedrokaua.narutoapi.exceptions.CharacterAlreadyExistsException;
 import me.pedrokaua.narutoapi.models.entities.NarutoCharacter;
@@ -25,7 +24,7 @@ class EntitiesTests {
     NarutoCharacterServiceImpl characterService;
 
     @Test
-    void test1_creatingEntity(){
+    void test1_creatingEntity() {
         assertDoesNotThrow(() -> {
             NarutoCharacter char1
                     = new NarutoCharacter("Naruto Uzumaki", 15, 'M', "Uzumaki", "Genin");
@@ -33,23 +32,25 @@ class EntitiesTests {
     }
 
     @Test
-    void test3_postEntity(){
+    void test3_postEntity() {
         assertDoesNotThrow(() -> {
             NarutoCharacter char1
                     = new NarutoCharacter("Naruto Uzumaki", 15, 'M', "Uzumaki", "Genin");
             characterService.saveCharacter(char1);
         });
     }
+
     @Test
-    void test5_postEntityWithNullException(){
+    void test5_postEntityWithNullException() {
         new Thread(() -> {
             assertThrowsExactly(NullPointerException.class, () -> {
                 characterService.saveCharacter(null);
             });
         });
     }
+
     @Test
-    void test6_postEntityWithException(){
+    void test6_postEntityWithException() {
         new Thread(() -> {
             assertThrowsExactly(CharacterAlreadyExistsException.class, () -> {
                 NarutoCharacter char1
@@ -60,7 +61,7 @@ class EntitiesTests {
     }
 
     @Test
-    void test7_getEntity(){
+    void test7_getEntity() {
         new Thread(() -> {
             assertDoesNotThrow(() -> {
                 var char1 = characterService.findAllByName("Naruto");
@@ -70,8 +71,9 @@ class EntitiesTests {
 
     }
 
+}
 
-    }
+
 
 /*
     --> OBS: Delete verb doesn't work! <--

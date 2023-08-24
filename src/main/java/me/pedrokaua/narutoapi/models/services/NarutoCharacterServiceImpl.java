@@ -46,25 +46,25 @@ public class NarutoCharacterServiceImpl implements NarutoCharacterService {
     }
 
     @Override
-    public NarutoCharacter findById(String id) {
-        NarutoCharacter char1 = characterRepository.findById(UUID.fromString(id))
-                .orElseThrow(() -> {
-                    throw new FindException("Character not found by id: " + id);
-                });
+    public NarutoCharacter findById(String id) throws FindException {
+        try {
+            return characterRepository.findById(UUID.fromString(id)).get();
+        } catch (Exception e) {
+            throw new FindException("Character not found by id: " + id);
+        }
 
-        return char1;
     }
 
     @Override
-    public NarutoCharacter findByName(String name) {
-        NarutoCharacter char1 = characterRepository.findFirstByNameLike(name)
-                .orElseThrow(() -> {
-                    throw new FindException("Ninja is not present in database with the name: " + name);
-                });
+    public List<NarutoCharacter> findAllByName(String name) throws FindException {
+        name = name == null ? "" : name;
 
-        return char1;
+        try {
+            return characterRepository.findByNameContainingIgnoreCase(name);
+        } catch (Exception e) {
+            throw new FindException("Ninja is not present in database with the name: " + name);
+        }
     }
-
 
     /* -------------------------------- UPDATE -------------------------------- */
 
@@ -76,8 +76,9 @@ public class NarutoCharacterServiceImpl implements NarutoCharacterService {
         if (entity == null){
             throw new NullPointerException("Entity is null!");
         }
+
         try {
-            System.out.println(entity.getId());
+            this.findById(entity.getId().toString());
             characterRepository.delete(entity);
             return entity;
         } catch (Exception e) {
@@ -97,7 +98,7 @@ public class NarutoCharacterServiceImpl implements NarutoCharacterService {
             characterRepository.deleteById(UUID.fromString(id));
             return char1;
         } catch (Exception e) {
-            throw new CharacterNotFoundException();
+            throw new CharacterNotFoundException("Id not found in database!");
         }
     }
 }

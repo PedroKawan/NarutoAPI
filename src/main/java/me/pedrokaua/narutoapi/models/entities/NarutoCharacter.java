@@ -2,6 +2,8 @@ package me.pedrokaua.narutoapi.models.entities;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -13,14 +15,19 @@ public class NarutoCharacter {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @NotNull
     private String name;
 
+    @NotNull
     private Integer age;
 
+    @NotNull
     private Character gender;
 
+    @NotNull
     private String clan;
 
+    @NotNull
     private String occupation;
 
     public NarutoCharacter(){}

@@ -10,7 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface NarutoCharacterRepository extends JpaRepository<NarutoCharacter, UUID> {
-    public Optional<NarutoCharacter> findFirstByNameLike(String name);
+    public List<NarutoCharacter> findByNameContainingIgnoreCase(String name);
 
-    public List<NarutoCharacter> findAllByNameLike(String name);
 }

@@ -13,7 +13,7 @@ public interface NarutoCharacterService {
 
     public abstract NarutoCharacter findById(String id);
 
-    public abstract NarutoCharacter findByName(String name);
+    public abstract List<NarutoCharacter> findAllByName(String name);
 
     /* -- UPDATE -- */
 

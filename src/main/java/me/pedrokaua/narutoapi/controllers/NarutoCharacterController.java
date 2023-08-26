@@ -3,6 +3,7 @@ package me.pedrokaua.narutoapi.controllers;
 import jakarta.validation.Valid;
 import me.pedrokaua.narutoapi.exceptions.CharacterAlreadyExistsException;
 import me.pedrokaua.narutoapi.exceptions.CharacterNotFoundException;
+import me.pedrokaua.narutoapi.exceptions.UpdateCharacterException;
 import me.pedrokaua.narutoapi.models.entities.NarutoCharacter;
 import me.pedrokaua.narutoapi.models.services.NarutoCharacterServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,19 @@ public class NarutoCharacterController {
 
 
     /* -------------------------------- UPDATE -------------------------------- */
+    @PutMapping
+    public @ResponseBody ResponseEntity<Object> updateCharacter(@RequestBody NarutoCharacter entity){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(characterService.updateCharacter(entity));
+        } catch (NullPointerException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (CharacterNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (UpdateCharacterException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST ).body(e.getMessage());
+        }
+    }
+
     /* -------------------------------- DELETE -------------------------------- */
     @DeleteMapping
     public @ResponseBody ResponseEntity<Object> deleteCharacter(@Valid @RequestBody NarutoCharacter entity){

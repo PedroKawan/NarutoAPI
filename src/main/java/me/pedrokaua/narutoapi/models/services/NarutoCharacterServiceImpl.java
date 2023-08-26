@@ -2,6 +2,7 @@ package me.pedrokaua.narutoapi.models.services;
 
 import me.pedrokaua.narutoapi.exceptions.CharacterAlreadyExistsException;
 import me.pedrokaua.narutoapi.exceptions.CharacterNotFoundException;
+import me.pedrokaua.narutoapi.exceptions.UpdateCharacterException;
 import me.pedrokaua.narutoapi.models.entities.NarutoCharacter;
 import me.pedrokaua.narutoapi.models.repositories.NarutoCharacterRepository;
 import me.pedrokaua.narutoapi.models.services.impl.NarutoCharacterService;
@@ -39,6 +40,7 @@ public class NarutoCharacterServiceImpl implements NarutoCharacterService {
     }
 
 
+
     /* -------------------------------- READ -------------------------------- */
     @Override
     public List<NarutoCharacter> findAll() {
@@ -66,7 +68,30 @@ public class NarutoCharacterServiceImpl implements NarutoCharacterService {
         }
     }
 
+
+
     /* -------------------------------- UPDATE -------------------------------- */
+    @Override
+    public NarutoCharacter updateCharacter(NarutoCharacter entity)
+            throws NullPointerException, CharacterNotFoundException, UpdateCharacterException{
+
+        var list = findAll();
+
+        //if 'clean' test
+        if (entity == null) throw new NullPointerException("Entity is null!");
+        if (!list.contains(entity)) throw new CharacterNotFoundException();
+
+        try {
+            characterRepository.findById(entity.getId());
+            characterRepository.save(entity);
+            return entity;
+        } catch (Exception e) {
+            throw new UpdateCharacterException(e.getMessage());
+        }
+
+    }
+
+
 
     /* -------------------------------- DELETE -------------------------------- */
     @Override
@@ -85,6 +110,7 @@ public class NarutoCharacterServiceImpl implements NarutoCharacterService {
             throw new CharacterNotFoundException();
         }
     }
+
 
     @Override
     public NarutoCharacter deleteCharacterById(String id)

@@ -17,6 +17,8 @@ public interface NarutoCharacterService {
 
     /* -- UPDATE -- */
 
+    public abstract NarutoCharacter updateCharacter(NarutoCharacter entity);
+
     /* -- DELETE -- */
     public abstract NarutoCharacter deleteCharacter(NarutoCharacter entity);
 
